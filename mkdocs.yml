@@ -1,0 +1,113 @@
+# SPDX-FileCopyrightText: 2024 Shell Global Solutions International B.V. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+---
+# Project information
+site_name: openMCMC
+site_author: openMCMC
+site_description: >-
+  This repository contains the Markov Chain Monte Carlo implementations we call openMCMC. It is part of the pyELQ project.
+# Repository
+repo_name: openMCMC
+repo_url: https://github.com/sede-open/general_MCMC
+edit_uri: ""
+
+docs_dir: docs
+
+# Configuration
+theme:
+  name: material
+  # Default values, taken from mkdocs_theme.yml
+  language: en
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - content.tooltips
+    #- navigation.expand
+    - navigation.indexes
+    - navigation.instant
+#    - navigation.sections
+    - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.top
+    # - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    tag:
+        pipelines: fontawesome/solid/timeline
+
+extra:
+  generator: false
+  tags:
+    Pipelines: pipelines
+
+plugins:
+  - search
+  - autorefs
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            members_order: source
+            docstring_style: "google"
+  - tags
+
+watch:
+  - src/openmcmc
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - meta
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg # Page tree
+  - pymdownx.snippets:
+      url_download: true
+
+nav:
+  - Home: index.md
+  - openMCMC:
+    - Distribution:
+      - Distribution: openmcmc/distribution/distribution.md
+      - Location Scale: openmcmc/distribution/location_scale.md
+    - GMRF: openmcmc/gmrf.md
+    - MCMC: openmcmc/mcmc.md
+    - Model: openmcmc/model.md
+    - Parameter: openmcmc/parameter.md
+    - Sampler:
+        - Sampler: openmcmc/sampler/sampler.md
+        - Metropolis-Hastings: openmcmc/sampler/metropolis_hastings.md
+        - Reversible Jump: openmcmc/sampler/reversible_jump.md

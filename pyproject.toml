@@ -1,0 +1,78 @@
+# SPDX-FileCopyrightText: 2024 Shell Global Solutions International B.V. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "openmcmc"
+version = "1.0.0"
+description = "openMCMC tools"
+authors = ["Bas van de Kerkhof", "Matthew Jones", "Ross Towe", "David Randell"]
+homepage = "https://github.com/sede-open/openMCMC"
+repository = "https://github.com/sede-open/openMCMC"
+documentation = "https://github.com/sede-open/openMCMC"
+readme = "README.md"
+license = "Apache-2.0"
+keywords = ["Markov Chain Monte Carlo", "MCMC"]
+
+[tool.poetry.dependencies]
+python = "~3.11"
+pandas = ">=2.1.4"
+numpy = ">=1.26.2"
+scipy = ">=1.11.4"
+tqdm = ">=4.66.1"
+matplotlib = {version = ">=3.8.2", optional = true }
+pytictoc = {version = ">=1.5.3", optional = true }
+
+[tool.poetry.extras]
+extras = ["matplotlib", "pytictoc"]
+
+[tool.poetry.group.contributor]
+optional = true
+
+[tool.poetry.group.contributor.dependencies]
+black = ">=23.12.1"
+isort = ">=5.13.2"
+pydocstyle = ">=6.3.0"
+pylint = ">=3.0.3"
+pytest = ">=7.4.4"
+pytest-cov = ">=4.1.0"
+pytest-cases = ">=3.8.1"
+mkdocs-material = ">=9.5.7"
+mkdocstrings-python = ">=1.8.0"
+
+[tool.pytest.ini_options]
+addopts = "--cov=openmcmc --cov-fail-under=90"
+testpaths = [
+    "tests",
+]
+
+[tool.coverage.run]
+relative_files = true
+source = ["src/"]
+
+[tool.pylint]
+fail-under=9.0
+max-line-length=120
+py-version=3.11
+
+[tool.black]
+line-length = 120
+target-version = ['py311']
+
+[tool.pydocstyle]
+convention = "google"
+add-ignore = ["D105", "D107"]
+
+[tool.isort]
+profile = "black"
+
+[tool.docformatter]
+recursive = true
+wrap-summaries = 120
+wrap-descriptions = 120
+blank = true
+black = true
