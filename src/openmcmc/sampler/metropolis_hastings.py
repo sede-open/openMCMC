@@ -93,10 +93,9 @@ class MetropolisHastings(MCMCSampler):
             param_index (int): subset of parameter used in proposal, If none all parameters are used
 
         Returns:
-            (Tuple[dict, np.ndarray, np.ndarray]): tuple consisting of the following elements:
-                prop_state (dict): updated proposal_state dictionary.
-                logp_pr_g_cr (float): log-density of proposed state given current state.
-                logp_cr_g_pr (float): log-density of current state given proposed state.
+            prop_state (dict): updated proposal_state dictionary.
+            logp_pr_g_cr (float): log-density of proposed state given current state.
+            logp_cr_g_pr (float): log-density of current state given proposed state.
 
         """
 
@@ -227,10 +226,9 @@ class RandomWalk(MetropolisHastings):
             param_index (int): subset of parameter used in proposal, If none all parameters are used
 
         Returns:
-            (Tuple[dict, np.ndarray, np.ndarray]): tuple consisting of the following elements:
-                prop_state (dict): updated proposal_state dictionary.
-                logp_pr_g_cr (float): log-density of proposed state given current state.
-                logp_cr_g_pr (float): log-density of current state given proposed state.
+            prop_state (dict): updated proposal_state dictionary.
+            logp_pr_g_cr (float): log-density of proposed state given current state.
+            logp_cr_g_pr (float): log-density of current state given proposed state.
 
         """
         prop_state = deepcopy(current_state)
@@ -303,10 +301,9 @@ class ManifoldMALA(MetropolisHastings):
             param_index (int): required input from superclass. Not used; defaults to None.
 
         Returns:
-            (Tuple[dict, np.ndarray, np.ndarray]): tuple consisting of the following elements:
-                prop_state (dict): updated proposal_state dictionary.
-                logp_pr_g_cr (np.ndarray): log-density of proposed state given current state.
-                logp_cr_g_pr (np.ndarray): log-density of current state given proposed state.
+            prop_state (dict): updated proposal_state dictionary.
+            logp_pr_g_cr (np.ndarray): log-density of proposed state given current state.
+            logp_cr_g_pr (np.ndarray): log-density of current state given proposed state.
 
         """
         prop_state = deepcopy(current_state)
@@ -335,9 +332,8 @@ class ManifoldMALA(MetropolisHastings):
             current_state (dict): dictionary containing current parameter values.
 
         Returns:
-            (Tuple[np.ndarray, np.ndarray]): with the following components:
-                mu_cr (np.ndarray): mean for proposal distribution, shape=(p, 1).
-                chol_cr (np.ndarray): lower triangular Cholesky factorization of precision matrix, shape=(p, p).
+            mu_cr (np.ndarray): mean for proposal distribution, shape=(p, 1).
+            chol_cr (np.ndarray): lower triangular Cholesky factorization of precision matrix, shape=(p, p).
 
         """
         grad_cr, hessian_cr = self.model.grad_log_p(current_state, param=self.param, hessian_required=True)

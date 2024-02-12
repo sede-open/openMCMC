@@ -81,10 +81,9 @@ class ReversibleJump(MetropolisHastings):
             param_index (int): not used, included for compatibility with superclass.
 
         Returns:
-            (Tuple[dict, float, float]): tuple consisting of the following elements:
-                prop_state (dict): dictionary updated with proposed value for self.param.
-                logp_pr_g_cr (float): transition probability for proposed state given current state.
-                logp_cr_g_pr (float): transition probability for current state given proposed state.
+            prop_state (dict): dictionary updated with proposed value for self.param.
+            logp_pr_g_cr (float): transition probability for proposed state given current state.
+            logp_cr_g_pr (float): transition probability for current state given proposed state.
 
         """
         birth = self.get_move_type(current_state)
@@ -118,10 +117,9 @@ class ReversibleJump(MetropolisHastings):
             current_state (dict): dictionary with current parameter values.
 
         Returns:
-            (Tuple[dict, float, float]): tuple consisting of the following elements:
-                prop_state (dict): dictionary updated with proposed state.
-                logp_pr_g_cr (float): transition probability for proposed state given current state.
-                logp_cr_g_pr (float): transition probability for current state given proposed state.
+            prop_state (dict): dictionary updated with proposed state.
+            logp_pr_g_cr (float): transition probability for proposed state given current state.
+            logp_cr_g_pr (float): transition probability for current state given proposed state.
 
         """
         prop_state = deepcopy(current_state)
@@ -164,10 +162,9 @@ class ReversibleJump(MetropolisHastings):
             current_state (dict): dictionary with current parameter values.
 
         Returns:
-            (Tuple[dict, float, float]): tuple consisting of the following elements:
-                prop_state (dict): dictionary updated with proposed state.
-                logp_pr_g_cr (float): transition probability for proposed state given current state.
-                logp_cr_g_pr (float): transition probability for current state given proposed state.
+            prop_state (dict): dictionary updated with proposed state.
+            logp_pr_g_cr (float): transition probability for proposed state given current state.
+            logp_cr_g_pr (float): transition probability for current state given proposed state.
 
         """
         prop_state = deepcopy(current_state)
@@ -228,10 +225,9 @@ class ReversibleJump(MetropolisHastings):
             logp_cr_g_pr (float): transition probability for current state given proposed state.
 
         Returns:
-            (Tuple[dict, float, float]): tuple consisting of the following elements:
-                prop_state (dict): proposed state with updated parameter vector.
-                logp_pr_g_cr (float): updated transition probability.
-                logp_cr_g_pr (float): updated transition probability.
+            prop_state (dict): proposed state with updated parameter vector.
+            logp_pr_g_cr (float): updated transition probability.
+            logp_cr_g_pr (float): updated transition probability.
 
         """
         vector = self.matching_params["variable"]
@@ -279,10 +275,9 @@ class ReversibleJump(MetropolisHastings):
             deletion_index (int): index of the basis element to be deleted
 
         Returns:
-            (Tuple[dict, float, float]): tuple consisting of the following elements:
-                prop_state (dict): proposed state with updated parameter vector.
-                logp_pr_g_cr (float): updated transition probability.
-                logp_cr_g_pr (float): updated transition probability.
+            prop_state (dict): proposed state with updated parameter vector.
+            logp_pr_g_cr (float): updated transition probability.
+            logp_cr_g_pr (float): updated transition probability.
 
         """
         vector = self.matching_params["variable"]
