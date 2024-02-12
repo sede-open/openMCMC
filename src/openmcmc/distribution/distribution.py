@@ -48,7 +48,7 @@ class Distribution(ABC):
                 the distribution separately. Defaults to False.
 
         Returns:
-            (Union[np.ndarray, float]):: POSITIVE log-density evaluated using the supplied state dictionary.
+            (Union[np.ndarray, float]): POSITIVE log-density evaluated using the supplied state dictionary.
 
         """
 
@@ -61,7 +61,7 @@ class Distribution(ABC):
             n (int, optional): specifies the number of replicate samples required. Defaults to 1.
 
         Returns:
-            (np.ndarray):: random variables generated from distribution returned as p x n where p is the
+            (np.ndarray): random variables generated from distribution returned as p x n where p is the
                 dimensionality of the response.
 
         """
@@ -130,7 +130,7 @@ class Distribution(ABC):
             step_size (float, optional): step size to use for the finite difference derivatives. Defaults to 1e-4.
 
         Returns:
-            (np.ndarray):: vector of log-pdf gradients with respect to param. shape=(d, 1), where d is the dimensionality
+            (np.ndarray): vector of log-pdf gradients with respect to param. shape=(d, 1), where d is the dimensionality
                 of param.
 
         """
@@ -166,7 +166,7 @@ class Distribution(ABC):
             step_size (float, optional): step size to use for the finite difference derivatives. Defaults to 1e-4
 
         Returns:
-            (np.ndarray):: matrix of log-pdf second derivatives with respect to param. shape=(d, d), where d is the
+            (np.ndarray): matrix of log-pdf second derivatives with respect to param. shape=(d, d), where d is the
                 dimensionality of param.
 
         """
@@ -246,7 +246,7 @@ class Gamma(Distribution):
                 the distribution separately. Defaults to False.
 
         Returns:
-            (Union[np.ndarray, float]):: POSITIVE log-density evaluated using the supplied state dictionary.
+            (Union[np.ndarray, float]): POSITIVE log-density evaluated using the supplied state dictionary.
 
         """
         log_p = np.sum(
@@ -265,7 +265,7 @@ class Gamma(Distribution):
             n (int, optional): specifies the number of replicate samples required. Defaults to 1.
 
         Returns:
-            (np.ndarray):: random variables generated from distribution returned as p x n where p is the
+            (np.ndarray): random variables generated from distribution returned as p x n where p is the
                 dimensionality of the response.
 
         """
@@ -323,7 +323,7 @@ class Categorical(Distribution):
                 the distribution separately. Defaults to False.
 
         Returns:
-            (Union[np.ndarray, float]):: POSITIVE log-density evaluated using the supplied state dictionary.
+            (Union[np.ndarray, float]): POSITIVE log-density evaluated using the supplied state dictionary.
 
         """
         n_categories = self.prob.predictor(state).shape[1]
@@ -356,7 +356,7 @@ class Categorical(Distribution):
             n (int, optional): specifies the number of random variables required. Defaults to 1
 
         Returns:
-            (np.ndarray):: random sample from the categorical distribution. shape=(p, n)
+            (np.ndarray): random sample from the categorical distribution. shape=(p, n)
 
         """
         prob = self.prob.predictor(state)
@@ -407,7 +407,7 @@ class Uniform(Distribution):
             state (dict): dictionary with current state information.
 
         Returns:
-            (np.ndarray):: domain range. shape=(p, 1).
+            (np.ndarray): domain range. shape=(p, 1).
 
         """
         d = state[self.response].shape[0]
@@ -427,7 +427,7 @@ class Uniform(Distribution):
                 the distribution separately. Defaults to False.
 
         Returns:
-            (Union[np.ndarray, float]):: POSITIVE log-density evaluated using the supplied state dictionary.
+            (Union[np.ndarray, float]): POSITIVE log-density evaluated using the supplied state dictionary.
 
         """
         n = state[self.response].shape[1]
@@ -446,7 +446,7 @@ class Uniform(Distribution):
             n (int, optional): specifies the number of replicate samples required. Defaults to 1.
 
         Returns:
-            (np.ndarray):: random variables generated from distribution returned as p x n where p is the
+            (np.ndarray): random variables generated from distribution returned as p x n where p is the
                 dimensionality of the response.
 
         """
@@ -511,7 +511,7 @@ class Poisson(Distribution):
             n (int, optional): specifies the number of replicate samples required. Defaults to 1.
 
         Returns:
-            (np.ndarray):: random variables generated from distribution returned as p x n where p is the
+            (np.ndarray): random variables generated from distribution returned as p x n where p is the
                 dimensionality of the response.
 
         """
