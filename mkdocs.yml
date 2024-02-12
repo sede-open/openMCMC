@@ -10,7 +10,7 @@ site_description: >-
   This repository contains the Markov Chain Monte Carlo implementations we call openMCMC. It is part of the pyELQ project.
 # Repository
 repo_name: openMCMC
-repo_url: https://github.com/sede-open/general_MCMC
+repo_url: https://github.com/sede-open/openMCMC
 edit_uri: ""
 
 docs_dir: docs
