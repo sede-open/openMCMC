@@ -30,7 +30,7 @@ For some examples on how to use this package please check out these [Examples](h
 This project welcomes contributions and suggestions. If you have a suggestion that would make this better you can 
 simply open an issue with a relevant title. Don't forget to give the project a star! Thanks again!
 
-For more details on contributing to this repository, see the [Contributing guide](https://github.com/sede-open/openMCMC/blob/main/CODEOWNERS.md).
+For more details on contributing to this repository, see the [Contributing guide](https://github.com/sede-open/openMCMC/blob/main/CONTRIBUTING.md).
 
 ***
 # Licensing
