@@ -99,7 +99,7 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - openMCMC:
+  - openMCMC User Guide:
     - Distribution:
       - Distribution: openmcmc/distribution/distribution.md
       - Location Scale: openmcmc/distribution/location_scale.md
