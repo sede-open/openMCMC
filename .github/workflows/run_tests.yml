@@ -26,7 +26,7 @@ jobs:
           pip install .
       - name: Unit test with pytest
         run: |
-          pytest --cov-report=xml --junitxml=pytest_junit.xml --ignore-glob=*data_access*
+          pytest --cov-report=xml --junitxml=pytest_junit.xml
       - name: Fix code coverage paths
         run: |
           sed -i 's/\/opt\/hostedtoolcache\/Python\/.*\/site-packages/src/g' coverage.xml
