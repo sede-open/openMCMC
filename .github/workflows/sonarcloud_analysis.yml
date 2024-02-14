@@ -6,7 +6,7 @@ name: SonarCloudAnalysis
 on:
   - push
 jobs:
-  SonarCloud Analysis:
+  SonarCloudAnalysis:
     runs-on: ubuntu-latest
     strategy:
       matrix:
