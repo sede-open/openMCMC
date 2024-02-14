@@ -6,11 +6,20 @@ SPDX-License-Identifier: Apache-2.0
 
 <div align="center">
 
+[![PyPI version](https://img.shields.io/pypi/v/openmcmc.svg?logo=pypi&logoColor=FFE873)](https://pypi.org/project/openmcmc/)
+[![Supported Python versions](https://img.shields.io/pypi/pyversions/openmcmc.svg?logo=python&logoColor=FFE873)](https://pypi.org/project/openmcmc/)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Code Style Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Tests](https://github.com/sede-open/openMCMC/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/sede-open/openMCMC/actions/workflows/run_tests.yml)
 
-| Branch | Workflow Status                                                                                                                                                                | Code Coverage                                                                                                                                                            | Vulnerabilities | Bugs |
-|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|------|
-| main | [![Tests](https://github.com/sede-open/openMCMC/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/sede-open/openMCMC/actions/workflows/run_tests.yml) | [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=coverage)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc) | [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc) | [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=bugs)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc) |
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=coverage)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=bugs)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc)
 </div>
 
 # openMCMC
