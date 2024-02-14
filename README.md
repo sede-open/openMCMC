@@ -4,6 +4,15 @@ SPDX-FileCopyrightText: 2024 Shell Global Solutions International B.V. All Right
 SPDX-License-Identifier: Apache-2.0
 -->
 
+<div align="center">
+
+[![Code Style Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+| Branch | Workflow Status                                                                                                                                                                | Code Coverage                                                                                                                                                            | Vulnerabilities | Bugs |
+|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|------|
+| main | [![Tests](https://github.com/sede-open/openMCMC/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/sede-open/openMCMC/actions/workflows/run_tests.yml) | [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=coverage&branch=main)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc) | [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=vulnerabilities&branch=main)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc) | [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=bugs&branch=main)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc) |
+</div>
+
 # openMCMC
 openMCMC is a package for constructing Bayesian models from distributional components, and then doing parameter 
 estimation using Markov Chain Monte Carlo (MCMC) methods. The package supports a number of standard distributions used 
