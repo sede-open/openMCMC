@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-"""Unit testing for gmrf module."""
+"""Unit testing for GMRF module."""
 
 from typing import Union
 
