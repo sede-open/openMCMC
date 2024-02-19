@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: 2024 Shell Global Solutions International B.V. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: SonarCloudAnalysis
+
+on:
+  workflow_call:
+
+jobs:
+  SonarCloudAnalysis:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Specify all python versions you might want to perform the actions on
+        python-version: [ "3.11" ]
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+      - name: Download coverage xml results
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage_xml
+          path: coverage.xml
+      - name: Download coverage junitxml results
+        uses: actions/download-artifact@v4
+        with:
+          name: pytest_junitxml
+          path: pytest_junit.xml
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.OPENMCMC_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Upload SonarCloud Scan Report
+        uses: actions/upload-artifact@master
+        with:
+          name: sonar-scan-log
+          path: .scannerwork/report-task.txt
