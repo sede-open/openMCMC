@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2024 Shell Global Solutions International B.V. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: Main
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.py'
+      - '!pyproject.toml'
+      - 'requirements.txt'
+
+jobs:
+  CodeFormat:
+    uses: sede-open/openMCMC/.github/workflows/code_formatting.yml@main
+    secrets: inherit
+
+  Pydocstyle:
+    uses: sede-open/openMCMC/.github/workflows/pydocstyle_check.yml@main
+    needs: CodeFormat
+
+  Pylint:
+    uses: sede-open/openMCMC/.github/workflows/pylint_check.yml@main
+    needs: Pydocstyle
+
+  Tests:
+    uses: sede-open/openMCMC/.github/workflows/run_tests.yml@main
+    needs: CodeFormat
+
+  SonarCloud:
+    uses: sede-open/openMCMC/.github/workflows/sonarcloud_analysis.yml@main
+    needs: Tests
+    secrets: inherit
+
+  ReleaseTag:
+    uses: sede-open/openMCMC/.github/workflows/release_tagging.yml@main
+    needs: [CodeFormat, Pydocstyle, Pylint, Tests]
+    secrets: inherit
+
+  Build:
+    uses: sede-open/openMCMC/.github/workflows/build_package.yml@main
+    needs: ReleaseTag
+    secrets: inherit
+
+  PublishDocs:
+    uses: sede-open/openMCMC/.github/workflows/publish_docs.yml@main
+    needs: Build
