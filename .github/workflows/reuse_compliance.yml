@@ -1,7 +1,7 @@
 name: REUSE Compliance Check
 
 on:
-  - push
+  workflow_call:
 
 jobs:
   test:
