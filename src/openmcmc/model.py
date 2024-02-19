@@ -5,7 +5,7 @@
 # -*- coding: utf-8 -*-
 """Model module.
 
-This module provides a class definition of the Model class, a dictionary-like collection of distributions to form a
+This module provides the class definition of the Model class, a dictionary-like collection of distributions to form a
 model.
 
 """
