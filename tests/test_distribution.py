@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-"""Unit testing for distributions."""
+"""Unit tests for distributions."""
 
 from copy import deepcopy
 
