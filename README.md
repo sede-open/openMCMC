@@ -10,7 +10,7 @@ SPDX-License-Identifier: Apache-2.0
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/openmcmc.svg?logo=python&logoColor=FFE873)](https://pypi.org/project/openmcmc/)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Code Style Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Tests](https://github.com/sede-open/openMCMC/actions/workflows/run_tests.yml/badge.svg?branch=main)](https://github.com/sede-open/openMCMC/actions/workflows/run_tests.yml)
+[![Tests](https://github.com/sede-open/openMCMC/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/sede-open/openMCMC/actions/workflows/main.yml)
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=coverage)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=pyelq_openmcmc&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=pyelq_openmcmc)
@@ -32,8 +32,11 @@ and reversible-jump MCMC for parameters with an unknown dimensionality.
 ***
 
 # Installing openMCMC as a package
-Suppose you want to use this openMCMC package in a different project. You can install it just like a Python package.
-After activating the environment you want to install openMCMC in, open a terminal, move to the main openMCMC folder
+Suppose you want to use this openMCMC package in a different project.
+You can install it from [PyPi](https://pypi.org/project/openmcmc/) through pip 
+`pip install openmcmc`.
+Or you could clone the repository and install it from the source code. After activating the environment you want to 
+install openMCMC in, open a terminal, move to the main openMCMC folder
 where pyproject.toml is located and run `pip install .`, optionally you can pass the `-e` flag is for editable mode.
 All the main options, info and settings for the package are found in the pyproject.toml file which sits in this repo
 as well.
