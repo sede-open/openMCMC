@@ -21,10 +21,10 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
-      - name: Set up Python ${{ python-version }}
+      - name: Set up Python ${{ inputs.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ python-version }}
+          python-version: ${{ inputs.python-version }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
