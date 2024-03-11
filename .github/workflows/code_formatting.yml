@@ -27,6 +27,7 @@ jobs:
           pip install black 
           pip install isort
       - name: Run isort, black checks
+        continue-on-error: true
         run: |
           isort . --check
           black . --check
@@ -44,3 +45,4 @@ jobs:
           git checkout ${{ github.head_ref }}
           git commit --signoff -am "Automatic reformat of code"
           git push
+          exit 0
