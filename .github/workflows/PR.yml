@@ -12,27 +12,27 @@ on:
 
 jobs:
   CodeFormat:
-    uses: sede-open/openMCMC/.github/workflows/code_formatting.yml@main
+    uses: sede-open/openMCMC/.github/workflows/code_formatting.yml
     secrets: inherit
 
   Pydocstyle:
-    uses: sede-open/openMCMC/.github/workflows/pydocstyle_check.yml@main
+    uses: sede-open/openMCMC/.github/workflows/pydocstyle_check.yml
     needs: CodeFormat
 
   Pylint:
-    uses: sede-open/openMCMC/.github/workflows/pylint_check.yml@main
+    uses: sede-open/openMCMC/.github/workflows/pylint_check.yml
     needs: Pydocstyle
 
   Tests:
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
-    uses: sede-open/openMCMC/.github/workflows/run_tests.yml@more_python_support
+    uses: sede-open/openMCMC/.github/workflows/run_tests.yml
     with:
       python-version: ${{ matrix.python-version }}
     needs: CodeFormat
 
   SonarCloud:
-    uses: sede-open/openMCMC/.github/workflows/sonarcloud_analysis.yml@main
+    uses: sede-open/openMCMC/.github/workflows/sonarcloud_analysis.yml
     needs: Tests
     secrets: inherit
