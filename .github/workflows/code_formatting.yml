@@ -40,5 +40,7 @@ jobs:
           git config --global user.name 'code_reformat'
           git config --global user.email ''
           git remote set-url origin "https://$GITHUB_ACCESS_TOKEN@github.com/$GITHUB_REPOSITORY"
+          git fetch
+          git checkout ${{ github.head_ref }}
           git commit --signoff -am "Automatic reformat of code"
-          git push origin HEAD:${{ github.ref_name }}
+          git push
