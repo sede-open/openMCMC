@@ -33,7 +33,7 @@ jobs:
           isort . --check
           black . --check
       - name: Run isort and black when required and commit back
-        if: ${{ failure() }}
+        if: ${{ failure() || steps.check.outcome == 'failure'}}
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.OPENMCMC_TOKEN }}
         run: |
