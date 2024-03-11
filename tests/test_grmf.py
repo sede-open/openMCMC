@@ -143,7 +143,6 @@ def test_compare_truncated_normal(d: int, is_sparse: bool, lower: np.ndarray, up
 
     assert test_outcome
 
-
 @pytest.mark.parametrize("mean", [0.5, 1.3])
 @pytest.mark.parametrize("scale", [0.1, 1])
 @pytest.mark.parametrize("upper", [np.inf, None, 1.3])
