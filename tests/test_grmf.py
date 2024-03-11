@@ -4,6 +4,7 @@
 
 """Unit testing for GMRF module."""
 
+import warnings
 from typing import Union
 
 import numpy as np
@@ -11,7 +12,6 @@ import pandas as pd
 import pytest
 from scipy import sparse
 from scipy.stats import chi2, multivariate_normal, norm, ttest_ind
-import warnings
 
 from openmcmc import gmrf
 
@@ -80,8 +80,10 @@ def test_sample_normal(d: int, is_sparse: bool, n: int):
         test_outcome = np.sum(P > alpha) > n * (1 - 3 * alpha)
 
     if not test_outcome:
-        warnings.warn(f"Test failed, double check if this is due to randomness or a real issue. "
-                      f"Input args: [{d, is_sparse, n}]. P values: {P}.")
+        warnings.warn(
+            f"Test failed, double check if this is due to randomness or a real issue. "
+            f"Input args: [{d, is_sparse, n}]. P values: {P}."
+        )
         test_outcome = True
 
     assert test_outcome
@@ -133,11 +135,14 @@ def test_compare_truncated_normal(d: int, is_sparse: bool, lower: np.ndarray, up
 
     test_outcome = np.all(p_value < (1 - alp))
     if not test_outcome:
-        warnings.warn(f"Test failed, double check if this is due to randomness or a real issue. "
-                      f"Input args: [{d, is_sparse, lower, upper}]. P value: {p_value}.")
+        warnings.warn(
+            f"Test failed, double check if this is due to randomness or a real issue. "
+            f"Input args: [{d, is_sparse, lower, upper}]. P value: {p_value}."
+        )
         test_outcome = True
 
     assert test_outcome
+
 
 @pytest.mark.parametrize("mean", [0.5, 1.3])
 @pytest.mark.parametrize("scale", [0.1, 1])
