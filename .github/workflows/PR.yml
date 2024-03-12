@@ -12,7 +12,7 @@ on:
 
 jobs:
   CodeFormat:
-    uses: sede-open/openMCMC/.github/workflows/code_formatting.yml@more_python_support
+    uses: sede-open/openMCMC/.github/workflows/code_formatting.yml@main
     secrets: inherit
 
   Pydocstyle:
@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
-    uses: sede-open/openMCMC/.github/workflows/run_tests.yml@more_python_support
+    uses: sede-open/openMCMC/.github/workflows/run_tests.yml@main
     with:
       python-version: ${{ matrix.python-version }}
     needs: CodeFormat
