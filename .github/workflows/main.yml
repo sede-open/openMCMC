@@ -39,11 +39,11 @@ jobs:
     uses: sede-open/openMCMC/.github/workflows/sonarcloud_analysis.yml@main
     needs: Tests
     secrets: inherit
-#
-#  ReleaseTag:
-#    uses: sede-open/openMCMC/.github/workflows/release_tagging.yml@main
-#    needs: [CodeFormat, Pydocstyle, Pylint, Tests]
-#    secrets: inherit
+
+  ReleaseTag:
+    uses: sede-open/openMCMC/.github/workflows/release_tagging.yml@main
+    needs: [CodeFormat, Pydocstyle]
+    secrets: inherit
 
   Build:
     uses: sede-open/openMCMC/.github/workflows/build_package.yml@main
