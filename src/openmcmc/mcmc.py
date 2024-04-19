@@ -32,7 +32,8 @@ class MCMC:
                      specified will be sampler from prior distributions
         samplers (list): list of the samplers to be used for each parameter to be estimated.
         n_burn (int): number of initial burn in these iterations are not stored.
-        n_iter (int): number of iterations which are stored in store.
+        n_thin (int): number of iterations to thin by.
+        n_iter (int): number of iterations which are stored in store. For every iteration, n_thin iterations are run.
         store (dict): dictionary storing MCMC output as np.array for each inference parameter.
 
     """
@@ -42,6 +43,7 @@ class MCMC:
     model: Model
     n_burn: int = 5000
     n_iter: int = 5000
+    n_thin: int = 1
     store: dict = field(default_factory=dict, init=False)
 
     def __post_init__(self):
@@ -91,8 +93,9 @@ class MCMC:
 
         """
         for i_it in tqdm(range(-self.n_burn, self.n_iter)):
-            for sampler in self.samplers:
-                self.state = sampler.sample(self.state)
+            for _ in range(self.n_thin):
+                for sampler in self.samplers:
+                    self.state = sampler.sample(self.state)
 
             if i_it < 0:
                 continue
