@@ -63,16 +63,19 @@ def fix_state(request):
 
 
 @pytest.fixture(
-    params=[(0, 4000), (2000, 4000), (0, 6000), (2000, 6000)],
-    ids=["n_burn=0,n_iter=4000", "n_burn=non-zero,n_iter=4000", "n_burn=0,n_iter=6000", "n_burn=non-zero,n_iter=6000"],
+    params=[(0, 4000, 1), (2000, 4000, 5), (0, 6000, 10), (2000, 6000, 1)],
+    ids=["n_burn=0,n_iter=4000, n_thin=1",
+         "n_burn=non-zero,n_iter=4000,n_thin=5",
+         "n_burn=0,n_iter=6000, n_thin=10",
+         "n_burn=non-zero,n_iter=6000,n_thin=1"],
     name="nburn_niter",
 )
-def fix_nburn_niter(request):
+def fix_nburn_niter_nthin(request):
     """Define the initial state for the MCMC."""
-    [n_burn, n_iter] = request.param
-    nburn_niter = {"nburn": n_burn, "niter": n_iter}
+    [n_burn, n_iter, n_thin] = request.param
+    fix_nburn_niter_nthin = {"nburn": n_burn, "niter": n_iter, "nthin": n_thin}
 
-    return nburn_niter
+    return fix_nburn_niter_nthin
 
 
 def test_run_mcmc(state: dict, sampler: list, model: Model, nburn_niter: dict, monkeypatch):
@@ -105,10 +108,13 @@ def test_run_mcmc(state: dict, sampler: list, model: Model, nburn_niter: dict, m
     monkeypatch.setattr(NormalGamma, "store", mock_store)
     monkeypatch.setattr(Model, "log_p", mock_log_p)
 
-    M = MCMC(state, sampler, model, n_burn=nburn_niter["nburn"], n_iter=nburn_niter["niter"])
+    M = MCMC(state, sampler, model,
+             n_burn=nburn_niter["nburn"],
+             n_iter=nburn_niter["niter"],
+             n_thin=nburn_niter["nthin"])
     M.store["count"] = 0
     M.run_mcmc()
-    assert M.state["count"] == (M.n_iter + M.n_burn) * len(sampler)
+    assert M.state["count"] == (M.n_iter + M.n_burn) * len(sampler) * M.n_thin
     assert M.store["count"] == M.n_iter * len(sampler)
 
 
