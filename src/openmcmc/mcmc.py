@@ -47,8 +47,7 @@ class MCMC:
     store: dict = field(default_factory=dict, init=False)
 
     def __post_init__(self):
-        """Convert any state values to at least 2D np.arrays and sample any missing states from the prior distributions
-        and set up storage arrays for the sampled values.
+        """Convert any state values to at least 2D np.arrays and sample any missing states from the prior distributions and set up storage arrays for the sampled values.
 
         Ensures that all elements of the initial state are in an appropriate format for running
         the sampler:
