@@ -64,10 +64,12 @@ def fix_state(request):
 
 @pytest.fixture(
     params=[(0, 4000, 1), (2000, 4000, 5), (0, 6000, 10), (2000, 6000, 1)],
-    ids=["n_burn=0,n_iter=4000, n_thin=1",
-         "n_burn=non-zero,n_iter=4000,n_thin=5",
-         "n_burn=0,n_iter=6000, n_thin=10",
-         "n_burn=non-zero,n_iter=6000,n_thin=1"],
+    ids=[
+        "n_burn=0,n_iter=4000, n_thin=1",
+        "n_burn=non-zero,n_iter=4000,n_thin=5",
+        "n_burn=0,n_iter=6000, n_thin=10",
+        "n_burn=non-zero,n_iter=6000,n_thin=1",
+    ],
     name="mcmc_settings",
 )
 def fix_mcmc_settings(request):
@@ -108,7 +110,6 @@ def test_run_mcmc(state: dict, sampler: list, model: Model, mcmc_settings: dict,
     monkeypatch.setattr(NormalGamma, "store", mock_store)
     monkeypatch.setattr(Model, "log_p", mock_log_p)
 
-<<<<<<< HEAD
     M = MCMC(
         state,
         sampler,
@@ -117,18 +118,6 @@ def test_run_mcmc(state: dict, sampler: list, model: Model, mcmc_settings: dict,
         n_iter=mcmc_settings["niter"],
         n_thin=mcmc_settings["nthin"],
     )
-=======
-    M = MCMC(state, sampler, model,
-<<<<<<< HEAD
-             n_burn=nburn_niter["nburn"],
-             n_iter=nburn_niter["niter"],
-             n_thin=nburn_niter["nthin"])
->>>>>>> b4ba606 (updated unit test to include thinning)
-=======
-             n_burn=mcmc_settings["nburn"],
-             n_iter=mcmc_settings["niter"],
-             n_thin=mcmc_settings["nthin"])
->>>>>>> 682a0d0 (renaming the fixture function for iteration. burn and thinning)
     M.store["count"] = 0
     M.run_mcmc()
     assert M.state["count"] == (M.n_iter + M.n_burn) * len(sampler) * M.n_thin
