@@ -63,26 +63,31 @@ def fix_state(request):
 
 
 @pytest.fixture(
-    params=[(0, 4000), (2000, 4000), (0, 6000), (2000, 6000)],
-    ids=["n_burn=0,n_iter=4000", "n_burn=non-zero,n_iter=4000", "n_burn=0,n_iter=6000", "n_burn=non-zero,n_iter=6000"],
-    name="nburn_niter",
+    params=[(0, 4000, 1), (2000, 4000, 5), (0, 6000, 10), (2000, 6000, 1)],
+    ids=[
+        "n_burn=0,n_iter=4000, n_thin=1",
+        "n_burn=non-zero,n_iter=4000,n_thin=5",
+        "n_burn=0,n_iter=6000, n_thin=10",
+        "n_burn=non-zero,n_iter=6000,n_thin=1",
+    ],
+    name="mcmc_settings",
 )
-def fix_nburn_niter(request):
+def fix_mcmc_settings(request):
     """Define the initial state for the MCMC."""
-    [n_burn, n_iter] = request.param
-    nburn_niter = {"nburn": n_burn, "niter": n_iter}
+    [n_burn, n_iter, n_thin] = request.param
+    fix_mcmc_settings = {"nburn": n_burn, "niter": n_iter, "nthin": n_thin}
 
-    return nburn_niter
+    return fix_mcmc_settings
 
 
-def test_run_mcmc(state: dict, sampler: list, model: Model, nburn_niter: dict, monkeypatch):
+def test_run_mcmc(state: dict, sampler: list, model: Model, mcmc_settings: dict, monkeypatch):
     """Test run_mcmc function Checks size is correct for the output parameters of the function (state and store) based
     on the number of iterations (n_iter) and number of burn (n_burn), i.e.,
 
     Args:
         state: dictionary
         model: Model input
-        nburn_niter: dictionary of mcmc settings
+        mcmc_settings: dictionary of mcmc settings
         monkeypatch object for avoiding computationally expensive mcmc sampler.
 
     """
@@ -105,32 +110,39 @@ def test_run_mcmc(state: dict, sampler: list, model: Model, nburn_niter: dict, m
     monkeypatch.setattr(NormalGamma, "store", mock_store)
     monkeypatch.setattr(Model, "log_p", mock_log_p)
 
-    M = MCMC(state, sampler, model, n_burn=nburn_niter["nburn"], n_iter=nburn_niter["niter"])
+    M = MCMC(
+        state,
+        sampler,
+        model,
+        n_burn=mcmc_settings["nburn"],
+        n_iter=mcmc_settings["niter"],
+        n_thin=mcmc_settings["nthin"],
+    )
     M.store["count"] = 0
     M.run_mcmc()
-    assert M.state["count"] == (M.n_iter + M.n_burn) * len(sampler)
+    assert M.state["count"] == (M.n_iter + M.n_burn) * len(sampler) * M.n_thin
     assert M.store["count"] == M.n_iter * len(sampler)
 
 
-def test_post_init(state: dict, sampler: list, model: Model, nburn_niter: dict):
+def test_post_init(state: dict, sampler: list, model: Model, mcmc_settings: dict):
     """This function test __pos__init function to check returned store and state parameters are np.array of the
     dimension n * 1
 
     Args:
         state: dictionary
-        nburn_niter: integer
+        mcmc_settings: integer
         model:
 
     """
-    M = MCMC(state, sampler, model, n_iter=nburn_niter["niter"])
+    M = MCMC(state, sampler, model, n_iter=mcmc_settings["niter"])
 
     assert isinstance(M.state["count"], np.ndarray)
     assert M.state["count"].ndim == 2
 
     assert isinstance(M.state["beta"], np.ndarray)
     assert M.state["beta"].ndim == 2
-    assert (len(M.store) - 1) * (M.store["beta"]).shape[1] == len(sampler) * nburn_niter["niter"]
-    assert M.store["log_post"].size == nburn_niter["niter"]
+    assert (len(M.store) - 1) * (M.store["beta"]).shape[1] == len(sampler) * mcmc_settings["niter"]
+    assert M.store["log_post"].size == mcmc_settings["niter"]
 
     if len(sampler) > 1:
         assert isinstance(M.state["tau"], np.ndarray)
