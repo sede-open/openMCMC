@@ -21,19 +21,19 @@ class MCMC:
     """Class for running Markov Chain Monte Carlo on a Model object to do parameter inference.
 
     Args:
-        state (dict): initial state of sampler any parameters not
-                     specified will be sampler from prior distributions
-        samplers (list): list of the samplers to be used for each parameter to be estimated
-        n_burn (int, optional): number of initial burn in these iterations are not stored, default 5000
+        state (dict): initial state of sampler. Any parameters not specified will be sampled from prior distributions.
+        samplers (list): list of the samplers to be used for each parameter to be estimated.
+        n_burn (int, optional): number of initial burn in these iterations are not stored, default 5000.
         n_iter (int, optional): number of iterations which are stored in store, default 5000
+        n_thin (int, optional): number of iterations to thin by, default 1.
 
     Attributes:
         state (dict): initial state of sampler any parameters not
                      specified will be sampler from prior distributions
         samplers (list): list of the samplers to be used for each parameter to be estimated.
         n_burn (int): number of initial burn in these iterations are not stored.
+        n_iter (int): number of iterations which are stored in store.
         n_thin (int): number of iterations to thin by.
-        n_iter (int): number of iterations which are stored in store. For every iteration, n_thin iterations are run.
         store (dict): dictionary storing MCMC output as np.array for each inference parameter.
 
     """
@@ -47,7 +47,8 @@ class MCMC:
     store: dict = field(default_factory=dict, init=False)
 
     def __post_init__(self):
-        """Convert any state values to at least 2D np.arrays and sample any missing states from the prior distributions, and set up storage arrays for the sampled values.
+        """Convert any state values to at least 2D np.arrays and sample any missing states from the prior distributions,
+        and set up storage arrays for the sampled values.
 
         Ensures that all elements of the initial state are in an appropriate format for running
         the sampler:
@@ -85,7 +86,9 @@ class MCMC:
         self.store["log_post"] = np.full(shape=(self.n_iter, 1), fill_value=np.nan)
 
     def run_mcmc(self):
-        """Runs MCMC routine for model specification loops for n_iter+ n_burn iterations sampling the state for each parameter and updating the parameter state.
+        """Runs MCMC routine for the given model specification.
+
+        Numbers the iteratins of the sampler from -self.n_burn to self.n_iter, sotring every self.n_thin samples.
 
         Runs a first loop over samplers, and generates a sample for all corresponding variables in the state. Then
         stores the value of each of the sampled parameters in the self.store dictionary, as well as the data fitted
