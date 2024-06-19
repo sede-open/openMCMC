@@ -110,6 +110,7 @@ def test_run_mcmc(state: dict, sampler: list, model: Model, mcmc_settings: dict,
     monkeypatch.setattr(NormalGamma, "store", mock_store)
     monkeypatch.setattr(Model, "log_p", mock_log_p)
 
+<<<<<<< HEAD
     M = MCMC(
         state,
         sampler,
@@ -118,6 +119,12 @@ def test_run_mcmc(state: dict, sampler: list, model: Model, mcmc_settings: dict,
         n_iter=mcmc_settings["niter"],
         n_thin=mcmc_settings["nthin"],
     )
+=======
+    M = MCMC(state, sampler, model,
+             n_burn=nburn_niter["nburn"],
+             n_iter=nburn_niter["niter"],
+             n_thin=nburn_niter["nthin"])
+>>>>>>> b4ba606 (updated unit test to include thinning)
     M.store["count"] = 0
     M.run_mcmc()
     assert M.state["count"] == (M.n_iter + M.n_burn) * len(sampler) * M.n_thin
