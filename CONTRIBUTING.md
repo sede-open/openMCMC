@@ -5,7 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 # Getting started with contributing
-We're happy for everyone to contribute to the package by proposing new features, implementing them in a new branch and 
+We're happy for everyone to contribute to the package by proposing new features, implementing them in a fork and 
 creating a pull request. In order to keep the codebase consistent we use some common standards and tools for formatting 
 of the code. We are using poetry to keep our development environment up to date. Please follow the instructions here 
 https://python-poetry.org/docs/ to install poetry. Next, pull the repo to your local machine, open a terminal window 
