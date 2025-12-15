@@ -55,7 +55,7 @@ def move_function(state: dict, update_column: int) -> dict:
 
     """
     state["B"] = make_basis(state["X"], knots=state["theta"], scales=state["omega"])
-    return state
+    return state, 0, 0
 
 
 def birth_multiple_jump_function(current_state: dict, prop_state: dict) -> Tuple[dict, float, float]:
