@@ -327,6 +327,8 @@ class ReversibleJump(MetropolisHastings):
             return False
         if current_state[self.param] == 1:
             return True
+        if current_state[self.param] == 0:
+            raise Exception("Zero number of sources is not allowed")
 
         return uniform.rvs() <= self.birth_probability
 
