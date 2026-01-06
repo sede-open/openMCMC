@@ -38,7 +38,7 @@ def make_basis(data_locations: np.ndarray, knots: np.ndarray, scales: np.ndarray
     return basis_matrix
 
 
-def move_function(state: dict, update_column: int) -> dict:
+def move_function(state: dict, update_column: int) -> Tuple[dict, int, int]:
     """Update the basis matrix in the state to take account of the relocation of a knot.
 
     Assumes that the supplied state has at least the following elements:
