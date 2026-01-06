@@ -51,7 +51,7 @@ def move_function(state: dict, update_column: int) -> Tuple[dict, int, int]:
         update_column (int): defunct parameter.
 
     Returns:
-        state (dict): state dictionary with updated basis matrix
+        Tuple[dict, int, int]: state dictionary with updated basis matrix, and two zeros.
 
     """
     state["B"] = make_basis(state["X"], knots=state["theta"], scales=state["omega"])
