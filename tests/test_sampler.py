@@ -208,7 +208,7 @@ def test_sampler_specific(sampler_object: MCMCSampler, state: dict, monkeypatch)
 
     """
 
-    def mock_norm_rvs(size: tuple, scale = 1):
+    def mock_norm_rvs(size: tuple, scale=1):
         """Replace scipy.stats.norm.rvs with a function that just generates a vector of zeros."""
         return np.zeros(shape=size)
 

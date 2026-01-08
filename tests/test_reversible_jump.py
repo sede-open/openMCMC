@@ -320,7 +320,7 @@ def fix_mock_knot_endpoint(monkeypatch):
     """Replace the uniform random sampler with a function which always returns 0.5, so that the birth move always
     returns a knot at the upper end of the domain."""
 
-    def sample_endpoint(size:tuple):
+    def sample_endpoint(size: tuple):
         return 1.0 * np.ones(size)
 
     monkeypatch.setattr(uniform, "rvs", sample_endpoint)
