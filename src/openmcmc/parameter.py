@@ -172,7 +172,7 @@ class LinearCombination(Parameter):
         return self.predictor_conditional(state)
 
     def predictor_conditional(self, state: dict, term_to_exclude: Union[str, list] = None) -> np.ndarray:
-        """Extract predictor from the state dictionary using the functional form defined in the specific subclass excluding parameters.
+        """Extract predictor from the state dictionary using the functional form excluding other parameters.
 
         Used when estimating conditional distributions of those parameters.
 
@@ -230,7 +230,7 @@ class LinearCombination(Parameter):
 
 @dataclass
 class LinearCombinationWithTransform(LinearCombination):
-    """Linear combination of parameters from the state, with optional exponential transformation for the parameter elements.
+    """Linear combination of parameters from the state, with optional transformation for the parameter elements.
 
     Currently, the only allowed transformation is the exponential transform.
 
@@ -251,7 +251,7 @@ class LinearCombinationWithTransform(LinearCombination):
     transform: dict
 
     def predictor_conditional(self, state: dict, term_to_exclude: Union[str, list] = None) -> np.ndarray:
-        """Extract predictor from the state dictionary using the functional form defined in the specific subclass excluding parameters.
+        """Extract predictor from the state dictionary using the functional form excluding other parameters.
 
         Used when estimating conditional distributions of those parameters.
 
@@ -473,7 +473,7 @@ class MixtureParameterVector(MixtureParameter):
 
 @dataclass
 class MixtureParameterMatrix(MixtureParameter):
-    """Diagonal matrix parameter: elements of the diagonal are obtained from sub-parameter 'param' according to the allocation index vector.
+    """Diagonal matrix parameter: elements of the diagonal are obtained from sub-parameter according to the allocation.
 
     The allocation parameter defines a mapping between a R^m and R^n where typically m<=n and m is the
     number true underlying number of parameters in the model but due to the representation/algebra in

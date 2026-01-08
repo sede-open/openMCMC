@@ -16,7 +16,7 @@ from dataclasses import dataclass, field
 from typing import Callable, Tuple
 
 import numpy as np
-from scipy.stats import norm
+from scipy.stats import norm, uniform
 
 from openmcmc import gmrf
 from openmcmc.sampler.sampler import MCMCSampler
@@ -170,7 +170,7 @@ class MetropolisHastings(MCMCSampler):
             (bool): True for accept, False for Reject.
 
         """
-        return np.log(np.random.rand()) < log_accept
+        return np.log(uniform.rvs()) < log_accept
 
 
 @dataclass

@@ -63,9 +63,10 @@ class LocationScale(Distribution, ABC):
 
 
 class NullDistribution(LocationScale):
-    """Null distribution, which returns 0 for the log-likelihood, a zero vector for the gradient and a zero matrix for the Hessian.
+    """Null distribution, Used in prior recovery testing for reversible jump sampler.
 
-    Used in prior recovery testing for reversible jump sampler.
+    The null distribution returns 0 for the log-likelihood, a zero vector for the gradient and a zero matrix for the
+    Hessian.
 
     """
 

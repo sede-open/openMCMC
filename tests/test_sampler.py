@@ -67,7 +67,7 @@ def test_acceptance_rate(accept_rate):
     """
     accept_rate.count["proposal"] = 1
     accept_rate.count["accept"] = 1
-    assert accept_rate.acceptance_rate == 100.0
+    assert np.isclose(accept_rate.acceptance_rate, 100.0)
 
 
 def test_get_acceptance_rate(accept_rate):
@@ -90,20 +90,22 @@ def test_get_acceptance_rate(accept_rate):
 def fix_state(request):
     """Fix the state for the MCMC sampler tests."""
     [n, p, n_cat] = request.param
+
+    rng = np.random.default_rng(0)
     state = {}
-    state["prefactor_matrix"] = np.random.rand(n, p)
-    state["parameter"] = np.random.rand(p, 1)
-    state["parameter_n"] = np.random.rand(n, 1)
+    state["prefactor_matrix"] = rng.random((n, p))
+    state["parameter"] = rng.random((p, 1))
+    state["parameter_n"] = rng.random((n, 1))
     state["response"] = state["prefactor_matrix"] @ state["parameter"]
-    state["prior_mean"] = np.random.rand(n_cat, 1)
-    state["precision_matrix"] = np.diag(np.random.rand(n, 1).flatten() + 0.1)
-    state["prior_precision_vector"] = 0.1 + np.random.rand(n_cat)
+    state["prior_mean"] = rng.random((n_cat, 1))
+    state["precision_matrix"] = np.diag(rng.random(n) + 0.1)
+    state["prior_precision_vector"] = 0.1 + rng.random(n_cat)
     state["prior_precision_matrix"] = np.eye(p)
-    state["prior_precision_scalar"] = 0.1 + np.random.rand(1, 1)
+    state["prior_precision_scalar"] = 0.1 + rng.random((1, 1))
     state["gamma_shape"] = 1e-3 * np.ones(shape=(n_cat,))
     state["gamma_rate"] = 1e-3 * np.ones(shape=(n_cat,))
-    state["allocation"] = np.random.randint(low=0, high=n_cat, size=(p, 1))
-    state["prior_allocation_prob"] = np.random.rand(1, n_cat)
+    state["allocation"] = rng.integers(low=0, high=n_cat, size=(p, 1))
+    state["prior_allocation_prob"] = rng.random((1, n_cat))
     state["prior_allocation_prob"] = state["prior_allocation_prob"] / np.sum(state["prior_allocation_prob"])
     return state
 
@@ -333,14 +335,14 @@ def check_normalgamma(sampler_object: NormalGamma, state: dict, monkeypatch):
     test_state["gamma_rate"] = np.zeros(shape=test_state["gamma_rate"].shape)
     updated_state = sampler_object.sample(test_state)
 
-    resids = test_state[sampler_object.model[sampler_object.normal_param].response] - sampler_object.model[
+    residuals = test_state[sampler_object.model[sampler_object.normal_param].response] - sampler_object.model[
         sampler_object.normal_param
     ].mean.predictor(test_state)
     for k in range(test_state[sampler_object.param].shape[0]):
         component_index = test_state["allocation"] == k
         if np.sum(component_index) > 0:
             assert np.allclose(
-                1 / updated_state[sampler_object.param][k], np.mean(np.power(resids[component_index], 2))
+                1 / updated_state[sampler_object.param][k], np.mean(np.power(residuals[component_index], 2))
             )
 
 
@@ -355,11 +357,12 @@ def check_mixtureallocation(sampler_object: MixtureAllocation, state: dict):
     with probability 1: this behaviour is checked.
 
     """
+    rng = np.random.default_rng(0)
     test_state = deepcopy(state)
     test_state["prior_mean"] = np.array(
         np.arange(start=0, stop=test_state["prior_mean"].shape[0]), ndmin=2, dtype=float
     ).T
-    test_state["parameter"] = np.random.choice(test_state["prior_mean"].flatten(), size=test_state["parameter"].shape)
+    test_state["parameter"] = rng.choice(test_state["prior_mean"].flatten(), size=test_state["parameter"].shape)
     test_state["prior_precision_vector"] = 1e4 * np.ones(shape=test_state["prior_precision_vector"].shape)
 
     updated_state = sampler_object.sample(test_state)

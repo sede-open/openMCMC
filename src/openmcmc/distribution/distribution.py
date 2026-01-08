@@ -90,7 +90,7 @@ class Distribution(ABC):
     def grad_log_p(
         self, state: dict, param: str, hessian_required: bool = True
     ) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]:
-        """Generate vector of derivatives of the log-pdf with respect to a given parameter, and if required, also generate the Hessian.
+        """Generate vector of derivatives of the log-pdf with respect to a given parameter.
 
         Function only defined for scalar- and vector-valued parameters param. If hessian_required=True, this function
         returns a tuple of (gradient, Hessian). If hessian_required=False, this function returns a np.ndarray (just
@@ -158,7 +158,10 @@ class Distribution(ABC):
         return grad_param.reshape(state[param].shape)
 
     def hessian_log_p_diff(self, state: dict, param: str, step_size: float = 1e-4) -> np.ndarray:
-        """Compute Hessian matrix of second derivatives of the NEGATIVE log-pdf (with respect to param) using finite differences.
+        """Compute Hessian matrix of second derivatives using finite differences.
+
+        Compute Hessian matrix of second derivatives of the NEGATIVE log-pdf (with respect to param) using finite
+        differences.
 
         Args:
             state (dict): current state information.
@@ -450,7 +453,7 @@ class Uniform(Distribution):
                 dimensionality of the response.
 
         """
-        standard_unif = np.random.rand(state[self.response].shape[0], n)
+        standard_unif = stats.uniform.rvs(size=(state[self.response].shape[0], n))
         return self.domain_response_lower + self.domain_range(state) * standard_unif
 
 

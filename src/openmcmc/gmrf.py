@@ -23,7 +23,7 @@ import numpy as np
 from pandas.arrays import DatetimeArray
 from scipy import linalg, sparse
 from scipy.sparse import linalg as sparse_linalg
-from scipy.stats import truncnorm
+from scipy.stats import truncnorm, norm
 
 
 def sample_normal(
@@ -53,7 +53,7 @@ def sample_normal(
     """
     size = [np.size(mu), n]
 
-    z = np.random.standard_normal(size=size)
+    z = norm.rvs(size=size)
 
     if L is None:
         L = cholesky(Q)
@@ -205,7 +205,10 @@ def gibbs_canonical_truncated_normal(
     lower: np.ndarray = -np.inf,
     upper: np.ndarray = np.inf,
 ) -> np.ndarray:
-    """Generate truncated multivariate random variables from a precision matrix Q using lower cholesky factorisation to get L based on current state x using Gibbs sampling.
+    """Generate truncated multivariate random variables from a precision matrix Q.
+
+    Generate truncated multivariate random variables from a precision matrix Q using lower cholesky factorisation to
+    get L based on current state x using Gibbs sampling.
 
     subject to linear inequality constraints
     lower < X < upper

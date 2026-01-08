@@ -51,16 +51,16 @@ def fix_state(request):
 
     """
     [n, p, p2] = request.param
-
+    rng = np.random.default_rng(0)
     state = {}
-    state["scalar"] = np.random.rand(1, 1)
-    state["vector"] = np.random.rand(p, 1)
-    state["matrix"] = np.random.rand(n, p)
-    state["vector_2"] = np.random.rand(p2, 1)
-    state["matrix_2"] = np.random.rand(n, p2)
-    state["diagonal_matrix"] = np.diag(np.random.rand(p))
-    state["square_matrix"] = np.random.rand(p, p)
-    state["square_matrix_2"] = np.random.rand(p2, p2)
+    state["scalar"] = rng.random((1, 1))
+    state["vector"] = rng.random((p, 1))
+    state["matrix"] = rng.random((n, p))
+    state["vector_2"] = rng.random((p2, 1))
+    state["matrix_2"] = rng.random((n, p2))
+    state["diagonal_matrix"] = np.diag(rng.random(p))
+    state["square_matrix"] = rng.random((p, p))
+    state["square_matrix_2"] = rng.random((p2, p2))
     # 0:p-1 repeated up to length n
     state["allocation"] = np.mod(np.array(range(n), ndmin=2).T, p)
 
