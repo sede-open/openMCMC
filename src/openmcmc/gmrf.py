@@ -23,7 +23,7 @@ import numpy as np
 from pandas.arrays import DatetimeArray
 from scipy import linalg, sparse
 from scipy.sparse import linalg as sparse_linalg
-from scipy.stats import truncnorm, norm
+from scipy.stats import norm, truncnorm
 
 
 def sample_normal(
