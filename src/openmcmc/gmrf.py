@@ -53,7 +53,7 @@ def sample_normal(
     """
     size = [np.size(mu), n]
 
-    z = norm.rvs(size=size)
+    z = norm.rvs(size=size, scale=1.0)
 
     if L is None:
         L = cholesky(Q)
