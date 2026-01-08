@@ -208,15 +208,10 @@ def test_sampler_specific(sampler_object: MCMCSampler, state: dict, monkeypatch)
 
     """
 
-    def mock_standard_normal(size: tuple):
-        """Replace numpy.random.standard_normal with a function that just generates a vector of zeros."""
-        return np.zeros(shape=size)
-
-    def mock_norm_rvs(size: tuple, scale: float):
+    def mock_norm_rvs(size: tuple, scale = 1):
         """Replace scipy.stats.norm.rvs with a function that just generates a vector of zeros."""
         return np.zeros(shape=size)
 
-    monkeypatch.setattr(np.random, "standard_normal", mock_standard_normal)
     monkeypatch.setattr(norm, "rvs", mock_norm_rvs)
 
     if isinstance(sampler_object, RandomWalk):
@@ -293,10 +288,10 @@ def check_normalnormal(sampler_object: NormalNormal, state: dict, monkeypatch):
         assert np.allclose(updated_state[sampler_object.param], comparison)
 
     def mock_sample_ones(size: tuple):
-        """Replace numpy.random.standard_normal with a function that just generates a vector of ones."""
+        """Replace scipy.stats.norm.rvs with a function that just generates a vector of zeros."""
         return np.ones(shape=size)
 
-    monkeypatch.setattr(np.random, "standard_normal", mock_sample_ones)
+    monkeypatch.setattr(norm, "rvs", mock_sample_ones)
 
     test_state = deepcopy(state)
     test_state["response"] = np.zeros(shape=test_state["response"].shape)

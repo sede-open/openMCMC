@@ -88,7 +88,7 @@ def birth_multiple_jump_function(current_state: dict, prop_state: dict) -> Tuple
 def death_multiple_jump_function(
     current_state: dict, prop_state: dict, deletion_index: int
 ) -> Tuple[dict, float, float]:
-    """Update basis matrix and allocation parameter in reponse to a death move for the situation in which multiple jump
+    """Update basis matrix and allocation parameter in response to a death move for the situation in which multiple jump
     parameters need to be updated.
 
     Assumes that the supplied state has at least the following elements:
@@ -309,10 +309,10 @@ def mock_knot_midpoint(monkeypatch):
     """Replace the uniform random sampler with a function which always returns 0.5, so that the birth move always
     returns a knot in the centre of the domain."""
 
-    def sample_midpoint(size: int, n=1):
-        return 0.5 * np.ones((size, n))
+    def sample_midpoint(size: tuple):
+        return 0.5 * np.ones(size)
 
-    monkeypatch.setattr(np.random, "rand", sample_midpoint)
+    monkeypatch.setattr(uniform, "rvs", sample_midpoint)
 
 
 @pytest.fixture(name="mock_knot_endpoint")
@@ -320,10 +320,10 @@ def fix_mock_knot_endpoint(monkeypatch):
     """Replace the uniform random sampler with a function which always returns 0.5, so that the birth move always
     returns a knot at the upper end of the domain."""
 
-    def sample_endpoint(size: int, n=1):
-        return 1.0 * np.ones((size, n))
+    def sample_endpoint(size:tuple):
+        return 1.0 * np.ones(size)
 
-    monkeypatch.setattr(np.random, "rand", sample_endpoint)
+    monkeypatch.setattr(uniform, "rvs", sample_endpoint)
 
 
 @pytest.fixture(name="mock_knot_selection")

@@ -23,7 +23,7 @@ import numpy as np
 from pandas.arrays import DatetimeArray
 from scipy import linalg, sparse
 from scipy.sparse import linalg as sparse_linalg
-from scipy.stats import truncnorm
+from scipy.stats import truncnorm, norm
 
 
 def sample_normal(
@@ -53,7 +53,7 @@ def sample_normal(
     """
     size = [np.size(mu), n]
 
-    z = np.random.standard_normal(size=size)
+    z = norm.rvs(size=size)
 
     if L is None:
         L = cholesky(Q)

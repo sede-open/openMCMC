@@ -454,6 +454,7 @@ class Uniform(Distribution):
 
         """
         standard_unif = stats.uniform.rvs(size=(state[self.response].shape[0], n))
+
         return self.domain_response_lower + self.domain_range(state) * standard_unif
 
 
