@@ -208,7 +208,7 @@ def test_grad_log_p(distribution: Distribution, state: dict):
     """
 
     for param in distribution.param_list:
-        if param in ["allocation", "allocation_d_n", "count_1", "count_d"]:
+        if param in ["allocation", "allocation_d_n", "count_1", "count_d", "probability_d"]:
             continue
 
         grad_log_p = distribution.grad_log_p(state, param, hessian_required=False)
@@ -233,7 +233,7 @@ def test_hessian_log_p(distribution: Distribution, state: dict):
     """
 
     for param in distribution.param_list:
-        if param in ["allocation", "allocation_d_n", "count_1", "count_d"]:
+        if param in ["allocation", "allocation_d_n", "count_1", "count_d", "probability_d"]:
             continue
 
         _, hessian_log_p = distribution.grad_log_p(state, param)
