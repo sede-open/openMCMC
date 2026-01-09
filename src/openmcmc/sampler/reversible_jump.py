@@ -328,7 +328,7 @@ class ReversibleJump(MetropolisHastings):
         if current_state[self.param] == 1:
             return True
         if current_state[self.param] == 0:
-            raise RuntimeError("Reversible jump MCMC: Number of parameters cannot be zero.")
+            raise ValueError("Reversible jump MCMC: Number of parameters cannot be zero.")
 
         return uniform.rvs() <= self.birth_probability
 

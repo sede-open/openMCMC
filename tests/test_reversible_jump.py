@@ -51,11 +51,18 @@ def move_function(state: dict, update_column: int) -> Tuple[dict, int, int]:
         update_column (int): defunct parameter.
 
     Returns:
-        Tuple[dict, int, int]: state dictionary with updated basis matrix, and two zeros.
+        Tuple[dict, float, float]: state dictionary with updated basis matrix and two floats that are set to zero for
+        this move. These floats correspond to the log-density of the proposed state given the current state
+        (logp_pr_g_cr) and the log-density of the current state given the proposed state (logp_cr_g_pr). This Tuple is
+        required to be compatible with the expected format for state_update_function in the RandomWalk sampler,
+        RandomWalk(MetropolisHastings), i.e.,
+            prop_state, logp_pr_g_cr_update, logp_cr_g_pr_update = state_update_function(prop_state, param_index)
 
     """
     state["B"] = make_basis(state["X"], knots=state["theta"], scales=state["omega"])
-    return state, 0, 0
+    logp_pr_g_cr = 0.0
+    logp_cr_g_pr = 0.0
+    return state, logp_pr_g_cr, logp_cr_g_pr
 
 
 def birth_multiple_jump_function(current_state: dict, prop_state: dict) -> Tuple[dict, float, float]:
