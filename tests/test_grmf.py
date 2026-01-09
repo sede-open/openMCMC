@@ -111,7 +111,7 @@ def test_compare_truncated_normal(d: int, is_sparse: bool, lower: np.ndarray, up
 
     """
 
-    np.random.seed(seed=0) #fix random seed for reproducibility
+    np.random.seed(seed=0)  # fix random seed for reproducibility
     n = 100
     mu = np.linspace(0, 1, d).reshape((d, 1))
     Q = rand_precision(d, is_sparse=is_sparse)
