@@ -21,7 +21,7 @@ from typing import Union
 
 import numpy as np
 from scipy import sparse
-from scipy.stats import gamma, norm
+from scipy.stats import gamma, norm, uniform
 
 from openmcmc import gmrf
 from openmcmc.distribution.location_scale import Normal
@@ -349,7 +349,7 @@ class MixtureAllocation(MCMCSampler):
             )
 
         allocation_prob = allocation_prob / np.sum(allocation_prob, axis=1).reshape((allocation_prob.shape[0], 1))
-        U = np.random.rand(n_response, 1)
+        U = uniform.rvs(size=(n_response, 1))
         current_state[self.param] = np.atleast_2d(np.sum(U > np.cumsum(allocation_prob, axis=1), axis=1)).T
 
         return current_state

@@ -72,9 +72,10 @@ class Model(dict):
     def grad_log_p(
         self, state: dict, param: str, hessian_required: bool = True
     ) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]:
-        """Generate vector of derivatives of the log-pdf with respect to a given parameter, as the sum of the derivatives of all the individual components of the model. If required, also generate the Hessian.
+        """Generate vector of derivatives of the log-pdf with respect to a given parameter.
 
-        Function only defined for scalar- and vector-valued parameters param. If hessian_required=True, this function
+        Generated as the sum of the derivatives of all the individual components of the model. If required,
+        also generate the Hessian. Function only defined for scalar- and vector-valued parameters param. If hessian_required=True, this function
         returns a tuple of (gradient, Hessian). If hessian_required=False, this function returns a np.ndarray (just
         the gradient of the log-density).
 

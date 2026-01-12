@@ -17,13 +17,14 @@ from openmcmc.parameter import LinearCombination, ScaledMatrix
 )
 def fix_state(request):
     """Fix state for use in the tests."""
+    rng = np.random.default_rng(0)
     [n, p] = request.param
     state = {}
-    state["theta"] = np.random.rand(p, 1)
+    state["theta"] = rng.random((p, 1))
     state["Q_response"] = (1 / 0.01**2) * np.eye(n)
-    state["basis_matrix"] = np.random.rand(n, p)
+    state["basis_matrix"] = rng.random((n, p))
     state["response"] = state["basis_matrix"] @ state["theta"] + np.linalg.solve(
-        np.sqrt(state["Q_response"]), np.random.normal(size=(n, 1))
+        np.sqrt(state["Q_response"]), rng.normal(size=(n, 1))
     )
     state["prior_mean"] = np.zeros(shape=(p, 1))
     state["tau"] = np.array([1 / 10**2], ndmin=2)

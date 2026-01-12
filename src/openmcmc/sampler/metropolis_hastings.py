@@ -16,7 +16,7 @@ from dataclasses import dataclass, field
 from typing import Callable, Tuple
 
 import numpy as np
-from scipy.stats import norm
+from scipy.stats import norm, uniform
 
 from openmcmc import gmrf
 from openmcmc.sampler.sampler import MCMCSampler
@@ -170,7 +170,7 @@ class MetropolisHastings(MCMCSampler):
             (bool): True for accept, False for Reject.
 
         """
-        return np.log(np.random.rand()) < log_accept
+        return np.log(uniform.rvs()) < log_accept
 
 
 @dataclass
@@ -188,7 +188,10 @@ class RandomWalk(MetropolisHastings):
         domain_limits (np.ndarray): array with shape=(p, 2), where p is the dimensionality of the parameter being
             sampled. The first column gives the lower limits for the proposal, the second column gives the upper limits.
         state_update_function (Callable): function which updates other elements of proposed state based on the proposed
-            value for param.
+            value for param. The function input is the proposed state and the param_index (if applicable), and the
+            output is the updated proposed state, the log-density of the proposed state given the current state,
+            and the log-density of the current state given the proposed state.
+            prop_state, logp_pr_g_cr_update, logp_cr_g_pr_update = state_update_function(prop_state, param_index)
 
     """
 
@@ -259,7 +262,9 @@ class RandomWalk(MetropolisHastings):
             prop_state[self.param][:, param_index] = z
 
         if callable(self.state_update_function):
-            prop_state = self.state_update_function(prop_state, param_index)
+            prop_state, logp_pr_g_cr_update, logp_cr_g_pr_update = self.state_update_function(prop_state, param_index)
+            logp_pr_g_cr += logp_pr_g_cr_update
+            logp_cr_g_pr += logp_cr_g_pr_update
 
         return prop_state, logp_pr_g_cr, logp_cr_g_pr
 

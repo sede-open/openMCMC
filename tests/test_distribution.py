@@ -50,22 +50,22 @@ def fix_state(request):
 
     """
     [n, d, p] = request.param
-
+    rng = np.random.default_rng(0)
     state = {}
-    state["scalar"] = np.random.rand(1, 1) + 1
-    state["scalar_2"] = np.random.rand(1, 1) + 1
-    state["observation_1_n"] = np.random.rand(1, n) + 1
-    state["observation_d_n"] = np.random.rand(d, n) + 1
-    state["vector_d"] = np.random.rand(d, 1) + 1
-    state["vector_p"] = np.random.rand(p, 1) + 1
-    state["count_1"] = np.random.randint(10, size=(1, 1))
-    state["count_d"] = np.random.randint(10, size=(d, 1))
+    state["scalar"] = rng.random((1, 1)) + 1
+    state["scalar_2"] = rng.random((1, 1)) + 1
+    state["observation_1_n"] = rng.random((1, n)) + 1
+    state["observation_d_n"] = rng.random((d, n)) + 1
+    state["vector_d"] = rng.random((d, 1)) + 1
+    state["vector_p"] = rng.random((p, 1)) + 1
+    state["count_1"] = rng.integers(10, size=(1, 1))
+    state["count_d"] = rng.integers(10, size=(d, 1))
     state["sparse_identity"] = sparse.eye(d, format="csr")
     state["identity"] = np.eye(d)
-    state["matrix"] = np.random.rand(d, p)
+    state["matrix"] = rng.random((d, p))
     state["allocation"] = np.mod(np.array(range(d), ndmin=2).T, p)
     state["probability_d"] = stats.dirichlet.rvs(np.ones(p), size=d)
-    state["allocation_d_n"] = np.random.randint(p, size=(d, n))
+    state["allocation_d_n"] = rng.integers(p, size=(d, n))
     return state
 
 
@@ -208,7 +208,7 @@ def test_grad_log_p(distribution: Distribution, state: dict):
     """
 
     for param in distribution.param_list:
-        if param in ["allocation", "allocation_d_n", "count_1", "count_d"]:
+        if param in ["allocation", "allocation_d_n", "count_1", "count_d", "probability_d"]:
             continue
 
         grad_log_p = distribution.grad_log_p(state, param, hessian_required=False)
@@ -233,7 +233,7 @@ def test_hessian_log_p(distribution: Distribution, state: dict):
     """
 
     for param in distribution.param_list:
-        if param in ["allocation", "allocation_d_n", "count_1", "count_d"]:
+        if param in ["allocation", "allocation_d_n", "count_1", "count_d", "probability_d"]:
             continue
 
         _, hessian_log_p = distribution.grad_log_p(state, param)

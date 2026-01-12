@@ -230,7 +230,7 @@ class LinearCombination(Parameter):
 
 @dataclass
 class LinearCombinationWithTransform(LinearCombination):
-    """Linear combination of parameters from the state, with optional exponential transformation for the parameter elements.
+    """Linear combination of parameters from the state, with optional exponential transformation for parameter elements.
 
     Currently, the only allowed transformation is the exponential transform.
 

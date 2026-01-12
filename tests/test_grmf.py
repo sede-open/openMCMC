@@ -32,8 +32,8 @@ def rand_precision(d: int = 1, is_time: bool = False, is_sparse: bool = False) -
         Union[np.ndarray, sparse.csc_matrix] d x d precision matrix
 
     """
-
-    s = np.cumsum(np.random.exponential(scale=1.0, size=d))
+    rng = np.random.default_rng(0)
+    s = np.cumsum(rng.exponential(scale=1.0, size=d))
 
     if is_time:
         s = pd.Timestamp.utcnow() + pd.to_timedelta(s, unit="sec")
@@ -59,7 +59,8 @@ def test_sample_normal(d: int, is_sparse: bool, n: int):
         is_sparse (bool): is precision generated as sparse
 
     """
-    mu = np.random.rand(d, 1)
+    rng = np.random.default_rng(0)
+    mu = rng.random((d, 1))
     Q = rand_precision(d, is_sparse=is_sparse)
     if is_sparse:
         Q = Q + sparse.eye(d)
@@ -109,6 +110,8 @@ def test_compare_truncated_normal(d: int, is_sparse: bool, lower: np.ndarray, up
         upper (np.ndarray): upper bound for truncated sampling
 
     """
+
+    np.random.seed(seed=0)  # fix random seed for reproducibility
     n = 100
     mu = np.linspace(0, 1, d).reshape((d, 1))
     Q = rand_precision(d, is_sparse=is_sparse)
@@ -187,7 +190,8 @@ def test_sample_normal_canonical(d: int, is_sparse: bool):
         is_sparse (bool): is precision generated as sparse
 
     """
-    b = np.random.rand(d, 1)
+    rng = np.random.default_rng(0)
+    b = rng.random((d, 1))
     Q = rand_precision(d, is_sparse=is_sparse)
     if is_sparse:
         Q = Q + sparse.eye(d)
@@ -221,7 +225,8 @@ def test_gibbs_truncated_normal_canonical(d: int, is_sparse: bool, lower: np.nda
         upper (np.ndarray): upper bound for truncated sampling
 
     """
-    b = np.random.rand(d, 1)
+    rng = np.random.default_rng(0)
+    b = rng.random((d, 1))
     Q = rand_precision(d, is_sparse=is_sparse)
     if is_sparse:
         Q = Q + sparse.eye(d)
@@ -253,14 +258,14 @@ def test_multivariate_normal_pdf(d: int, n: int, is_sparse: bool):
         is_sparse (bool): _description_
 
     """
-
+    rng = np.random.default_rng(0)
     mu = np.linspace(0, 1, d).reshape((d, 1))
     Q = rand_precision(d, is_sparse=is_sparse)
     if is_sparse:
         Q = Q + sparse.eye(d)
     else:
         Q = Q + np.eye(d)
-    x = np.random.rand(d, n)
+    x = rng.random((d, n))
 
     log_p = gmrf.multivariate_normal_pdf(x, mu=mu, Q=Q, by_observation=True)
     assert log_p.size == n
@@ -316,7 +321,7 @@ def test_solve(d: int, is_sparse: bool, lower: bool):
         lower (bool) is cholesky done using lower or triangular version
 
     """
-
+    rng = np.random.default_rng(0)
     a = rand_precision(d, is_sparse=is_sparse)
 
     if is_sparse:
@@ -324,7 +329,7 @@ def test_solve(d: int, is_sparse: bool, lower: bool):
     else:
         a = a + np.eye(d)
 
-    b = np.random.rand(d, 2)
+    b = rng.random((d, 2))
 
     # Solve version
     x = gmrf.solve(a, b)
