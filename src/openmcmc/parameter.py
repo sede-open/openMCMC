@@ -533,4 +533,6 @@ class MixtureParameterMatrix(MixtureParameter):
             (np.ndarray): unscaled precision matrix
 
         """
-        return sparse.diags(diagonals=self.get_element_match(state, element_index).flatten(), offsets=0, format="csc")
+        return sparse.diags(
+            diagonals=self.get_element_match(state, element_index).flatten(), offsets=0, format="csc", dtype=np.float64
+        )
