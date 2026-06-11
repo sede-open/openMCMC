@@ -30,8 +30,8 @@ from openmcmc.parameter import (
 
 
 @pytest.fixture(
-    params=[(1, 1, 1), (10, 9, 7), (10, 9, 1), (10, 1, 7), (1, 9, 7)],
-    ids=["all_size_1", "all > 1", "p2=1", "p=1", "n=1"],
+    params=[(10,0,0), (1, 1, 1), (10, 9, 7), (10, 9, 1), (10, 1, 7), (1, 9, 7)],
+    ids=["p=0","all_size_1", "all > 1", "p2=1", "p=1", "n=1"],
     name="state_tuple",
 )
 def fix_state(request):
@@ -311,7 +311,7 @@ def test_get_element_match(parameter: MixtureParameter, state_tuple: tuple):
 
     """
     state, n, p = state_tuple
-
+    p = np.maximum(p,1)
     total = 0
     for i in range(p):
         match = parameter.get_element_match(state, i)
