@@ -371,8 +371,8 @@ class ReversibleJump(MetropolisHastings):
         if current_state[self.param] == (self.n_max - 1) and birth:
             p_death = 1.0
 
-        if current_state[self.param] == 1:
+        if current_state[self.param] == self.n_min:
             p_birth = 1.0
-        if current_state[self.param] == 2 and not birth:
+        if current_state[self.param] == (self.n_min + 1) and not birth:
             p_birth = 1.0
         return p_birth, p_death
