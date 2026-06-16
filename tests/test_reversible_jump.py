@@ -208,10 +208,11 @@ def fix_model(basis_limits):
     return model
 
 
-
-@pytest.fixture(name="samplers",
+@pytest.fixture(
+    name="samplers",
     params=[(1, 20), (0, 10), (3, 10)],
-    ids=["min_1_max_20", "min_0_max_10", "min_3_max_10"],)
+    ids=["min_1_max_20", "min_0_max_10", "min_3_max_10"],
+)
 def fix_samplers(request, model, basis_limits, scale_limits):
     """Set up the samplers for the reversible jump unit tests.
 
