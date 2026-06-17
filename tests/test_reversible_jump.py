@@ -264,6 +264,7 @@ def test_prior_recovery(state, model, samplers):
     knots. This is checked by using a chi-squared goodness of fit test for the correspondence between the true Poisson
     prior and the MCMC samples, for bins where the expected count is at least 5.
 
+    The Poisson is truncated to the range [n_basis_min, n_basis_max] and renormalised to ensure that the probabilities sum to 1 over this range.
     """
     solver = MCMC(state=state, samplers=samplers, model=model, n_burn=0, n_iter=5000)
     solver.run_mcmc()
