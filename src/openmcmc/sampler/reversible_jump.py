@@ -53,7 +53,7 @@ class ReversibleJump(MetropolisHastings):
         state_death_function (Callable): function which implements problem-specific requirements for updates to elements
             of state as part of a death function. Should mirror the supplied state_birth_function. Defaults to None.
         matching_params (dict): dictionary of parameters required for the matched coefficient transitions- for details
-            of what it should contain, see self.matched_birth_transition.
+            of what it should contain, see self.matched_birth_transition.-
 
     """
 
