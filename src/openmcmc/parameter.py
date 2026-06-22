@@ -445,7 +445,7 @@ class MixtureParameterVector(MixtureParameter):
 
         """
         if state[self.param].shape[0] == 0:
-            return state[self.allocation]
+            return np.zeros_like(state[self.allocation])
         return state[self.param][state[self.allocation].flatten()]
 
     def grad(self, state: dict, param: str):
@@ -501,7 +501,7 @@ class MixtureParameterMatrix(MixtureParameter):
 
         """
         if state[self.param].shape[0] == 0:
-            diagonals = state[self.allocation].flatten()
+            diagonals = np.zeros_like(state[self.allocation]).flatten()
         else:
             diagonals = state[self.param][state[self.allocation]].flatten()
 
