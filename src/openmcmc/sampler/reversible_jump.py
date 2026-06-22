@@ -75,7 +75,7 @@ class ReversibleJump(MetropolisHastings):
         if isinstance(self.associated_params, str):
             self.associated_params = [self.associated_params]
 
-        if self.n_max  is None:
+        if self.n_max is None:
             raise ValueError("Reversible jump MCMC: n_max must be specified.")
 
         if self.n_max <= self.n_min:
