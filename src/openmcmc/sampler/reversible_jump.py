@@ -43,8 +43,8 @@ class ReversibleJump(MetropolisHastings):
         associated_params (list or string): a list or a string associated with the dimension jump. List of additional
             parameters that need to be created/removed as part of the dimension change. The default behaviour is to
             sample the necessary additional values from the associated parameter prior distribution. Defaults to None.
-        n_max (int): upper limit on self.param.
-        n_min (int): lower limit on self.param.
+        n_max (int): upper limit on self.param. Must be > n_min.
+        n_min (int): lower limit on self.param. Defaults to 1. Must be >= 0.
         birth_probability (float): probability that a birth move is chosen on any given iteration of the algorithm
             (death_probability = 1 - birth_probability). Defaults to 0.5.
         state_birth_function (Callable): function which implements problem-specific requirements for updates to elements
@@ -53,13 +53,13 @@ class ReversibleJump(MetropolisHastings):
         state_death_function (Callable): function which implements problem-specific requirements for updates to elements
             of state as part of a death function. Should mirror the supplied state_birth_function. Defaults to None.
         matching_params (dict): dictionary of parameters required for the matched coefficient transitions- for details
-            of what it should contain, see self.matched_birth_transition.-
+            of what it should contain, see self.matched_birth_transition.
 
     """
 
     associated_params: Union[list, str, None] = None
     n_max: Union[int, None] = None
-    n_min: Union[int, None] = 1
+    n_min: int = 1
     birth_probability: float = 0.5
     state_birth_function: Union[Callable, None] = None
     state_death_function: Union[Callable, None] = None
@@ -146,7 +146,8 @@ class ReversibleJump(MetropolisHastings):
         if log_prop_density.shape[0] > 0:
             logp_pr_g_cr += np.log(p_birth) + log_prop_density[-1]
         else:
-            logp_cr_g_pr += np.log(p_death)
+            logp_pr_g_cr += np.log(p_birth)
+        logp_cr_g_pr += np.log(p_death)
 
         return prop_state, logp_pr_g_cr, logp_cr_g_pr
 
