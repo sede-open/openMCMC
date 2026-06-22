@@ -43,7 +43,7 @@ class ReversibleJump(MetropolisHastings):
         associated_params (list or string): a list or a string associated with the dimension jump. List of additional
             parameters that need to be created/removed as part of the dimension change. The default behaviour is to
             sample the necessary additional values from the associated parameter prior distribution. Defaults to None.
-        n_max (int): upper limit on self.param. Must be > n_min.
+        n_max (int): upper limit on self.param. Must be > n_min. Defaults to None.
         n_min (int): lower limit on self.param. Defaults to 1. Must be >= 0.
         birth_probability (float): probability that a birth move is chosen on any given iteration of the algorithm
             (death_probability = 1 - birth_probability). Defaults to 0.5.
@@ -74,6 +74,12 @@ class ReversibleJump(MetropolisHastings):
         """
         if isinstance(self.associated_params, str):
             self.associated_params = [self.associated_params]
+
+        if self.n_max  is None:
+            raise ValueError("Reversible jump MCMC: n_max must be specified.")
+
+        if self.n_max <= self.n_min:
+            raise ValueError("Reversible jump MCMC: n_max must be greater than n_min.")
 
     def proposal(self, current_state: dict, param_index: int = None) -> Tuple[dict, float, float]:
         """Make a proposal, and compute related transition probabilities for the move.
