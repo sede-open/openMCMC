@@ -4,8 +4,12 @@
 
 name: ReleaseTag
 
+permissions:
+  contents: write
+
 on:
   workflow_call:
+  workflow_dispatch:
 
 jobs:
   # Releases new Python version when Pull Requests are merged into "main"
