@@ -36,7 +36,7 @@ def rand_precision(d: int = 1, is_time: bool = False, is_sparse: bool = False) -
     s = np.cumsum(rng.exponential(scale=1.0, size=d))
 
     if is_time:
-        s = pd.Timestamp.utcnow() + pd.to_timedelta(s, unit="sec")
+        s = pd.Timestamp.now("UTC") + pd.to_timedelta(s, unit="sec")
         return gmrf.precision_temporal(s, is_sparse=is_sparse)
 
     return gmrf.precision_irregular(s, is_sparse=is_sparse)
