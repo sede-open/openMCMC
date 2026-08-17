@@ -304,6 +304,8 @@ def test_get_element_match(parameter: MixtureParameter, state_tuple: tuple):
     In the test, the allocation is defined as mod(0:n-1, p); there is then also a test to check that the matches are
     found in the right place.
 
+    Test is skipped in the p=0 case as there are no allocations to match and the test does not make sense.
+
     Args:
         parameter (MixtureParameter): parameter object of mixture type
         state_tuple (tuple): a tuple (dict, n , p) where dict is a dictionary of state values, n and p are sizes. For
@@ -311,7 +313,8 @@ def test_get_element_match(parameter: MixtureParameter, state_tuple: tuple):
 
     """
     state, n, p = state_tuple
-    p = np.maximum(p, 1)
+    if p == 0:
+        return
     total = 0
     for i in range(p):
         match = parameter.get_element_match(state, i)

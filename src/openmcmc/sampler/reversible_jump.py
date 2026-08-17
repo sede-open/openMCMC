@@ -138,6 +138,10 @@ class ReversibleJump(MetropolisHastings):
             new_element = self.model[associated_key].rvs(state=current_state, n=1)
             prop_state[associated_key] = np.concatenate((prop_state[associated_key], new_element), axis=1)
             log_prop_density += self.model[associated_key].log_p(current_state, by_observation=True)
+
+        if log_prop_density.shape[0] == 0:
+            log_prop_density = np.array([0.0])
+
         if callable(self.state_birth_function):
             prop_state, logp_pr_g_cr, logp_cr_g_pr = self.state_birth_function(current_state, prop_state)
         else:
@@ -149,10 +153,8 @@ class ReversibleJump(MetropolisHastings):
 
         p_birth, p_death = self.get_move_probabilities(current_state, True)
 
-        if log_prop_density.shape[0] > 0:
-            logp_pr_g_cr += np.log(p_birth) + log_prop_density[-1]
-        else:
-            logp_pr_g_cr += np.log(p_birth)
+        logp_pr_g_cr += np.log(p_birth) + log_prop_density[-1]
+
         logp_cr_g_pr += np.log(p_death)
 
         return prop_state, logp_pr_g_cr, logp_cr_g_pr
