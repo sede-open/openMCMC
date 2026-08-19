@@ -43,7 +43,8 @@ class ReversibleJump(MetropolisHastings):
         associated_params (list or string): a list or a string associated with the dimension jump. List of additional
             parameters that need to be created/removed as part of the dimension change. The default behaviour is to
             sample the necessary additional values from the associated parameter prior distribution. Defaults to None.
-        n_max (int): upper limit on self.param (lower limit is assumed to be 1).
+        n_max (int): upper limit on self.param. Must be > n_min. Defaults to None.
+        n_min (int): lower limit on self.param. Defaults to 1. Must be >= 0.
         birth_probability (float): probability that a birth move is chosen on any given iteration of the algorithm
             (death_probability = 1 - birth_probability). Defaults to 0.5.
         state_birth_function (Callable): function which implements problem-specific requirements for updates to elements
@@ -58,6 +59,7 @@ class ReversibleJump(MetropolisHastings):
 
     associated_params: Union[list, str, None] = None
     n_max: Union[int, None] = None
+    n_min: int = 1
     birth_probability: float = 0.5
     state_birth_function: Union[Callable, None] = None
     state_death_function: Union[Callable, None] = None
@@ -72,6 +74,12 @@ class ReversibleJump(MetropolisHastings):
         """
         if isinstance(self.associated_params, str):
             self.associated_params = [self.associated_params]
+
+        if self.n_max is None:
+            raise ValueError("Reversible jump MCMC: n_max must be specified.")
+
+        if self.n_max <= self.n_min:
+            raise ValueError("Reversible jump MCMC: n_max must be greater than n_min.")
 
     def proposal(self, current_state: dict, param_index: int = None) -> Tuple[dict, float, float]:
         """Make a proposal, and compute related transition probabilities for the move.
@@ -130,6 +138,10 @@ class ReversibleJump(MetropolisHastings):
             new_element = self.model[associated_key].rvs(state=current_state, n=1)
             prop_state[associated_key] = np.concatenate((prop_state[associated_key], new_element), axis=1)
             log_prop_density += self.model[associated_key].log_p(current_state, by_observation=True)
+
+        if log_prop_density.shape[0] == 0:
+            log_prop_density = np.array([0.0])
+
         if callable(self.state_birth_function):
             prop_state, logp_pr_g_cr, logp_cr_g_pr = self.state_birth_function(current_state, prop_state)
         else:
@@ -140,7 +152,9 @@ class ReversibleJump(MetropolisHastings):
             )
 
         p_birth, p_death = self.get_move_probabilities(current_state, True)
+
         logp_pr_g_cr += np.log(p_birth) + log_prop_density[-1]
+
         logp_cr_g_pr += np.log(p_death)
 
         return prop_state, logp_pr_g_cr, logp_cr_g_pr
@@ -312,7 +326,7 @@ class ReversibleJump(MetropolisHastings):
 
         Logic for the choice of move is as follows:
             - if state[self.param]=self.n_max, it is not possible to increase self.param, so a death move is chosen.
-            - if state[self.param]=1, it is not possible to decrease self.param, so a birth move is chosen.
+            - if state[self.param]=self.n_min, it is not possible to decrease self.param, so a birth move is chosen.
             - in any other state, a birth move is chosen with probability self.birth_probability, or a death move is
                 chosen with probability (1 - self.birth_probability).
 
@@ -325,7 +339,7 @@ class ReversibleJump(MetropolisHastings):
         """
         if current_state[self.param] == self.n_max:
             return False
-        if current_state[self.param] == 1:
+        if current_state[self.param] == self.n_min:
             return True
         if current_state[self.param] == 0:
             raise ValueError("Reversible jump MCMC: Number of parameters cannot be zero.")
@@ -366,8 +380,8 @@ class ReversibleJump(MetropolisHastings):
         if current_state[self.param] == (self.n_max - 1) and birth:
             p_death = 1.0
 
-        if current_state[self.param] == 1:
+        if current_state[self.param] == self.n_min:
             p_birth = 1.0
-        if current_state[self.param] == 2 and not birth:
+        if current_state[self.param] == (self.n_min + 1) and not birth:
             p_birth = 1.0
         return p_birth, p_death
