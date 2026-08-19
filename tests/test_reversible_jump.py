@@ -208,8 +208,12 @@ def fix_model(basis_limits):
     return model
 
 
-@pytest.fixture(name="samplers")
-def fix_samplers(model, basis_limits, scale_limits):
+@pytest.fixture(
+    name="samplers",
+    params=[(0, 10)],
+    ids=["min_0_max_10"],
+)
+def fix_samplers(request, model, basis_limits, scale_limits):
     """Set up the samplers for the reversible jump unit tests.
 
     Sampler specification has the following components:
@@ -219,7 +223,7 @@ def fix_samplers(model, basis_limits, scale_limits):
         - ReversibleJump sampler for the number of knots in the basis.
 
     """
-    n_basis_max = 20
+    n_basis_min, n_basis_max = request.param
     matching_params = {"variable": "beta", "matrix": "B", "scale": 1.0, "limits": [-10.0, 10.0]}
     samplers = [
         ManifoldMALA(param="beta", model=model, step=np.array(0.5), max_variable_size=n_basis_max),
@@ -244,6 +248,7 @@ def fix_samplers(model, basis_limits, scale_limits):
             model=model,
             associated_params=["theta", "omega"],
             n_max=n_basis_max,
+            n_min=n_basis_min,
             state_birth_function=birth_multiple_jump_function,
             state_death_function=death_multiple_jump_function,
             matching_params=matching_params,
@@ -259,6 +264,7 @@ def test_prior_recovery(state, model, samplers):
     knots. This is checked by using a chi-squared goodness of fit test for the correspondence between the true Poisson
     prior and the MCMC samples, for bins where the expected count is at least 5.
 
+    The Poisson is truncated to the range [n_basis_min, n_basis_max] and renormalised to ensure that the probabilities sum to 1 over this range.
     """
     solver = MCMC(state=state, samplers=samplers, model=model, n_burn=0, n_iter=5000)
     solver.run_mcmc()
@@ -266,9 +272,13 @@ def test_prior_recovery(state, model, samplers):
     idx_thin = np.arange(start=0, stop=solver.n_iter, step=50)
     sample_n_knot = solver.store["n_basis"][:, idx_thin]
 
-    num = np.arange(start=1, stop=21, step=1)
-    bin_edges = np.linspace(start=0.5, stop=20.5, num=21)
-    expected_count = sample_n_knot.size * poisson.pmf(num, state["rho"])
+    n_basis_min = samplers[3].n_min
+    n_basis_max = samplers[3].n_max
+    num = np.arange(start=n_basis_min, stop=n_basis_max + 1, step=1)
+    bin_edges = np.linspace(start=n_basis_min - 0.5, stop=n_basis_max + 0.5, num=n_basis_max - n_basis_min + 2)
+    w = poisson.pmf(num, state["rho"])
+    w = w / np.sum(w)
+    expected_count = sample_n_knot.size * w
     observed_count, bin_edges = np.histogram(sample_n_knot.flatten(), bins=bin_edges)
 
     big_enough = expected_count >= 5

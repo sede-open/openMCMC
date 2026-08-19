@@ -30,8 +30,8 @@ from openmcmc.parameter import (
 
 
 @pytest.fixture(
-    params=[(1, 1, 1), (10, 9, 7), (10, 9, 1), (10, 1, 7), (1, 9, 7)],
-    ids=["all_size_1", "all > 1", "p2=1", "p=1", "n=1"],
+    params=[(10, 0, 0), (1, 1, 1), (10, 9, 7), (10, 9, 1), (10, 1, 7), (1, 9, 7)],
+    ids=["p=0", "all_size_1", "all > 1", "p2=1", "p=1", "n=1"],
     name="state_tuple",
 )
 def fix_state(request):
@@ -304,6 +304,8 @@ def test_get_element_match(parameter: MixtureParameter, state_tuple: tuple):
     In the test, the allocation is defined as mod(0:n-1, p); there is then also a test to check that the matches are
     found in the right place.
 
+    Test is skipped in the p=0 case as there are no allocations to match and the test does not make sense.
+
     Args:
         parameter (MixtureParameter): parameter object of mixture type
         state_tuple (tuple): a tuple (dict, n , p) where dict is a dictionary of state values, n and p are sizes. For
@@ -311,7 +313,8 @@ def test_get_element_match(parameter: MixtureParameter, state_tuple: tuple):
 
     """
     state, n, p = state_tuple
-
+    if p == 0:
+        return
     total = 0
     for i in range(p):
         match = parameter.get_element_match(state, i)

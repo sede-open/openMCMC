@@ -444,6 +444,8 @@ class MixtureParameterVector(MixtureParameter):
             (np.ndarray): predictor vector
 
         """
+        if state[self.param].shape[0] == 0:
+            return np.zeros_like(state[self.allocation])
         return state[self.param][state[self.allocation].flatten()]
 
     def grad(self, state: dict, param: str):
@@ -498,7 +500,12 @@ class MixtureParameterMatrix(MixtureParameter):
             (sparse.csc_matrix): predictor vector
 
         """
-        return sparse.diags(diagonals=state[self.param][state[self.allocation]].flatten(), offsets=0, format="csc")
+        if state[self.param].shape[0] == 0:
+            diagonals = np.zeros_like(state[self.allocation]).flatten()
+        else:
+            diagonals = state[self.param][state[self.allocation]].flatten()
+
+        return sparse.diags(diagonals=diagonals, offsets=0, format="csc")
 
     def grad(self, state: dict, param: str):
         """Compute gradient of single parameter.
